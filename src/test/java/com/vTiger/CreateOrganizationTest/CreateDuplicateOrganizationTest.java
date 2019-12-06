@@ -2,7 +2,6 @@ package com.vTiger.CreateOrganizationTest;
 
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.Reporter;
@@ -10,6 +9,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.vTiger.genericLib.BaseClass;
+import com.vTiger.genericLib.WebDriverCommUtils;
 import com.vTiger.objectRepositoryLib.OrganizationPage;
 
 @Listeners(com.vTiger.genericLib.ListenerImpClass.class)
@@ -59,12 +59,11 @@ public class CreateDuplicateOrganizationTest extends BaseClass
 		op.getSaveBtn().click();
 
 		/*Step 8: Handle the Alert Pop-Up */
-		Alert alert;
 		while(true)
 		{
 			try 
 			{
-				alert = driver.switchTo().alert();
+				WebDriverCommUtils.switchToAlert(driver);
 				break;
 			}
 			catch(Exception e)
@@ -72,9 +71,9 @@ public class CreateDuplicateOrganizationTest extends BaseClass
 
 			}
 		}
-		String act_Alert = alert.getText();
+		String act_Alert = WebDriverCommUtils.getAlertText(driver);
 		System.out.println(act_Alert);
-		alert.accept();
+		WebDriverCommUtils.acceptAlert(driver);
 		lib.setExcelData("Sheet2", 7, 5	,act_Alert);
 		Assert.assertEquals(exp_alert, act_Alert);
 		Reporter.log("Alert Message Handled");

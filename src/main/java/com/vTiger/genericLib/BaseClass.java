@@ -2,8 +2,8 @@ package com.vTiger.genericLib;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -23,50 +23,44 @@ public class BaseClass
 	public void getBrowser() throws Throwable
 	{
 		String browser  = lib.getPropertyKeyValue("browser");
-				
+
 		if(browser.equalsIgnoreCase("firefox"))
 		{
-			System.setProperty("webdriver.chrome.driver","D:\\Maven\\MavenPractise\\MavenProject\\src\\main\\resources\\chromedriver.exe");
-			driver = new ChromeDriver();
+			driver = new FirefoxDriver();
 			driver2=driver;
 		}
 		else if(browser.equalsIgnoreCase("chrome"))
 		{
-			System.out.println("Launching the Browser");
-			System.setProperty("webdriver.chrome.driver","D:\\Maven\\MavenPractise\\MavenProject\\src\\main\\resources\\chromedriver.exe");
 			driver = new ChromeDriver();
 			driver2=driver;
 		}
 		else if(browser.equalsIgnoreCase("IE"))
 		{
 			driver = new InternetExplorerDriver();
-		}
-		else
-		{
-			driver = new SafariDriver();
+			driver2=driver;
 		}
 	}
-	
+
 	@AfterClass
 	public void closeBrowser()
 	{
 		driver.quit();
 	}
-	
+
 	@BeforeMethod
 	public void LoginTest() throws Throwable
 	{
 		String url      = lib.getPropertyKeyValue("url");
 		String username = lib.getPropertyKeyValue("username");
 		String password = lib.getPropertyKeyValue("password");
-		
+
 		driver.get(url);
 		driver.manage().window().maximize();
 		WebDriverCommUtils.waitForPageToLoad(driver);
-		
+
 		String expLoginPage = lib.getPropertyKeyValue("loginpage");
 		String actLoginPage = driver.getTitle();
-		
+
 		Assert.assertEquals(expLoginPage, actLoginPage);
 
 		LoginPage lp = PageFactory.initElements(driver, LoginPage.class);
@@ -77,13 +71,13 @@ public class BaseClass
 
 		Assert.assertEquals(expHomePage, actHomePage);
 	}
-	
+
 	@AfterMethod
 	public void logout()
 	{
 		HomePage hp = PageFactory.initElements(driver, HomePage.class);
 		hp.logout();
-		
+
 		System.out.println("Succesfully Logged Out");
 	}
 }
