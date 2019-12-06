@@ -3,7 +3,7 @@
 <suite name="Suite" parallel="classes">
 
 <listeners>
-
+	<listener class-name="com.vTiger.genericLib.AnnotationTransformer"></listener>
 </listeners>
   <test thread-count="5" name="Test" parallel="classes">
     <classes>
