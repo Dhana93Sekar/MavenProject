@@ -23,9 +23,9 @@ public class ExtentReportTest
 		htmlreport.config().setTheme(Theme.DARK);
 		
 		ExtentReports extent = new ExtentReports();
+		extent.attachReporter(htmlreport);
 		extent.setSystemInfo("platform", "Windows 10");
 		extent.setSystemInfo("Author", "Dhanasekar");
-		extent.attachReporter(htmlreport);
 		ExtentTest test = extent.createTest("AmazonTest");
 	
 		WebDriverManager.chromedriver().setup();
